@@ -1,405 +1,183 @@
+# 🌍 Wanderlust – Travel Listing Platform
 
-# 🌍 WanderLust
+Wanderlust is a full-stack travel accommodation web application designed and developed to allow users to explore, create, and manage unique travel stays — from cozy cabins to luxury resorts.
 
-**WanderLust** is a full-stack travel listing web application that allows users to explore and interact with unique accommodations — from cozy cabins to luxury resorts.  
-The app features category filtering, interactive maps, cloud-hosted images, reviews, and a fully responsive design.  
+The platform provides secure authentication, dynamic listing management, interactive maps, image uploads, and review systems — all built using modern full-stack technologies.
 
+---
 
+## 🚀 Key Features
 
-## ⭐ Table of Contents
+- 🔐 **User Authentication & Authorization**
+  Secure signup, login, logout using Passport.js and session-based authentication.
 
+- 🏠 **Dynamic Listing Management**
+  Create, edit, and delete travel listings with images, categories, pricing, and geolocation.
 
-1 [✨ Features](#-features)  
-2 [🛠 Technologies Used](#-technologies-used)  
-3 [📂 Project Structure](#-project-structure)  
-4 [💾 Database Schema](#-database-schema)  
-5 [⚡ Installation](#-installation)
-6 [Dependencies](#-Dependencies)  
-7 [API Reference](#-API-Reference)
-8 [🚀 Usage](#-usage)    
-9 [☁️ Deployment](#-deployment)  
-10 [⚠️ Known Issues / Warnings](#-known-issues--warnings)  
-11 [🤝 Contributing](#-contributing)  
-## ✨ Features
+- 🗺️ **Interactive Map Integration**
+  Location-based listings displayed using Mapbox with geocoding support.
 
-⭐ **Dynamic Listings**: Each listing has title, description, images, category, location, and reviews.  
+- ☁️ **Cloud Image Uploads**
+  Images stored and optimized via Cloudinary.
 
-⭐ **Category Filtering & Search**: Filter listings by categories like *Trending*, *Amazing Pools*, etc.  
+- ⭐ **Review & Rating System**
+  Authenticated users can post and manage reviews.
 
-⭐ **Interactive Map**: Map plotting of all listings using **Mapbox**.  
+- 🛡️ **Robust Validation & Error Handling**
+  Joi validation and centralized custom error handling.
 
-⭐ **Responsive Design**: Fully responsive for desktop, tablet, and mobile.  
+- 📱 **Fully Responsive UI**
+  Optimized for desktop, tablet, and mobile devices.
 
-⭐ **Cloud-based Images**: Hosted on **Cloudinary** for fast, reliable delivery.  
+---
 
-⭐ **User Authentication**: Signup/login with sessions and flash messages.  
+## 🛠️ Tech Stack
 
-⭐ **Reviews**: Users can post and manage reviews for listings.  
+### Backend
 
-⭐ **Error Handling**: Centralized custom error handling.  
+- Node.js
+- Express.js
+- MongoDB (Atlas)
+- Mongoose
 
+### Frontend
 
-## 🛠 Technologies Used
+- EJS
+- HTML5
+- CSS3
+- JavaScript
 
-- **Backend**: Node.js, Express.js  
+### Authentication
 
-- **Database**: MongoDB via MongoDB Atlas  
+- Passport.js
+- express-session
+- connect-mongo
 
-- **ORM**: Mongoose  
+### File & Media Handling
 
-- **Frontend**: EJS templates, HTML5, CSS3, JavaScript  
+- Multer
+- Cloudinary
 
-- **Cloud Hosting**: Cloudinary for images  
+### Maps & Geolocation
 
-- **Maps**: Mapbox API for interactive location maps  
+- Mapbox API
 
-- **Utilities**: Express-session, connect-flash, custom middleware  
+---
 
-- **Development Tools**: VS Code, Git, npm  
-
-
-## project-structure
+## 📂 Project Structure
 
 ```
-WanderLust/
+WanderlustProject/
+│
 ├── app.js
-├── cloudConfig.js
 ├── middleware.js
-├── package.json
-├── package-lock.json
+├── cloudConfig.js
 ├── schema.js
-├── controller/
-│ ├── listing.js
-│ ├── reviews.js
-│ └── users.js
-├── init/
-│ ├── data.js
-│ └── index.js
+├── package.json
+│
+├── controllers/
 ├── models/
-│ ├── listing.js
-│ ├── review.js
-│ └── user.js
-├── public/
-│ ├── css/
-│ │ ├── rating.css
-│ │ └── style.css
-│ └── js/
-│ ├── map.js
-│ └── script.js
 ├── routes/
-│ ├── listing.js
-│ ├── review.js
-│ └── user.js
+├── views/
+├── public/
 ├── utils/
-│ ├── ExpressError.js
-│ └── wrapAsync.js
-└── views/
-├── error.ejs
-├── includes/
-│ ├── flash.ejs
-│ ├── footer.ejs
-│ └── navbar.ejs
-├── layouts/
-│ └── boilerplate.ejs
-├── listings/
-│ ├── edit.ejs
-│ ├── index.ejs
-│ ├── new.ejs
-│ └── show.ejs
-└── user/
-├── login.ejs
-└── signup.ejs
-```
-## database-schema
-
-### Listing Schema
-
-```
-const ListingSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  description: { type: String, required: true },
-  image: [{ url: String, filename: String }],
-  category: {
-    type: String,
-    enum: ["Trending", "Amazing Pools", "Romantic", "Adventure"],
-    required: true
-  },
-  geometry: {
-    type: {
-      type: String,
-      enum: ["Point"],
-      required: true
-    },
-    coordinates: { type: [Number], required: true }
-  },
-  reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }]
-});
+└── init/
 ```
 
-### Review Schema
+The project follows an MVC architecture to maintain clean code structure and scalability.
 
-```
-const ReviewSchema = new mongoose.Schema({
-  rating: { type: Number, min: 1, max: 5, required: true },
-  body: String,
-  author: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
-});
-```
+---
 
-### User Schema
+## ⚙️ Installation & Setup
 
-```
-const UserSchema = new mongoose.Schema({
-  email: { type: String, unique: true, required: true },
-  username: { type: String, unique: true, required: true },
-  password: { type: String, required: true }
-});
-```
-
-## Installation
-
-1. Clone the repository
+1️⃣ Clone the repository:
 
 ```bash
-git clone https://github.com/Atharv964/wanderlust.git
-cd wanderlust
+git clone https://github.com/Vinay-Yadav-07/WanderlustProject.git
+cd WanderlustProject
 ```
 
-2. Install dependencies
+2️⃣ Install dependencies:
 
 ```bash
 npm install
 ```
 
-3. Set up environment variables
-Create a ```.env``` file in the root directory:
+3️⃣ Create a `.env` file in the root directory:
 
 ```env
-DB_URL=your_mongoDB_Atlas_URI
+DB_URL=your_mongodb_connection_string
 CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_KEY=your_cloudinary_api_key
 CLOUDINARY_SECRET=your_cloudinary_secret
 MAPBOX_TOKEN=your_mapbox_token
-SECRET=session_secret_key
+SECRET=your_session_secret
 ```
 
-4. Seed the database (optional)
-```
-node init/index.js
-```
-5. Start the server
-```
+4️⃣ Start the server:
+
+```bash
 node app.js
 ```
-6. 6. Open your browser at `http://localhost:3000`
 
-
-
-
-    
-## Dependencies
+Open in browser:
 
 ```
-npm install express mongoose ejs dotenv passport passport-local passport-local-mongoose \
-express-session connect-mongo multer cloudinary multer-storage-cloudinary \
-joi method-override connect-flash mapbox-gl @mapbox/mapbox-sdk
+http://localhost:3000
 ```
 
-```
-> Note: All dependencies are listed in `package.json`.  
-> Use `npm install` to install them automatically.
-```
-- express: Web framework for building the server, routes, and middleware
+---
 
-- mongoose: Object Data Modeling (ODM) library for MongoDB
+## 📡 Core Routes Overview
 
-- ejs: Templating engine for rendering dynamic HTML views
+| Method | Route         | Description         |
+| ------ | ------------- | ------------------- |
+| GET    | /listings     | Get all listings    |
+| POST   | /listings     | Create new listing  |
+| GET    | /listings/:id | View single listing |
+| PUT    | /listings/:id | Update listing      |
+| DELETE | /listings/:id | Delete listing      |
+| POST   | /signup       | Register user       |
+| POST   | /login        | Login user          |
 
-- dotenv: Loads environment variables from a .env file
+---
 
-- passport: Authentication middleware for Node.js
+## 🧩 Architecture Highlights
 
-- passport-local: Local username and password authentication strategy
+- MVC-based structured design
+- RESTful routing
+- Middleware-based authorization
+- Modular route separation
+- Environment-based configuration
 
-- passport-local-mongoose: Simplifies password hashing and user authentication with Mongoose
+---
 
-- express-session: Manages user sessions
+## ☁️ Deployment
 
-- connect-mongo: Stores session data in MongoDB
+The project can be deployed on:
 
-- multer: Handles multipart/form-data for file uploads
+- Render
+- Railway
+- Vercel (frontend)
+- Heroku (if available)
 
-- cloudinary: Cloud-based image storage and optimization service
+Database: MongoDB Atlas
+Media Storage: Cloudinary
 
-- multer-storage-cloudinary: Integrates Multer with Cloudinary for direct uploads
+---
 
-- joi: Server-side validation of request data
+## 📌 Future Improvements
 
-- method-override: Enables PUT and DELETE HTTP methods in HTML forms
+- Payment integration
+- Advanced search filters
+- Wishlist feature
+- Booking system
+- Admin dashboard
 
-- connect-flash: Displays flash success and error messages
+---
 
-- mapbox-gl: Renders interactive maps on listing pages
+## 👨‍💻 Developer
 
-- @mapbox/mapbox-sdk: Provides geocoding and map-related services
-## API Reference
-
-### 📍 Listings API
-#### Get all listings
-
-```http
-  GET /listings
-```
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| - | - | Returns all listings |
-
-#### Get a single listing
-
-```http
-  GET /listings/:id
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `string` | Required. Listing ID |
-
-#### Create a new listing
-
-```http
-  POST /listings
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `title`      | `string` | Listing title |
-| `Description`      | `string` | Listing Description |
-| `category`      | `string` | Listing category |
-| `Price`      | `number` | Listing price |
-| `location`      | `string` | Listing image |
-| `image`      | `file` | Listing image |
-
-#### Update a listing
-
-```http
-  PUT /listings/:id
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `string` |Listing ID|
-
-#### Delete a listing
-
-```http
-  DELETE /listings/:id
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `string` |Listing ID|
-
-### ⭐ Reviews API
-#### Add a review
-
-```http
-  POST /listings/:id/reviews
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `rating`      | `number` |Rating (1–5)|
-| `comment`      | `string` |Review text|
-
-#### Delete a review
-
-```http
-  DELETE /listings/:id/reviews/:reviewId
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `reviewId`      | `string` |Review ID|
-
-### 👤 User Authentication API
-#### Register user
-
-```http
-  POST /signup
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `username`      | `string` |Unique username|
-| `email`      | `string` |Unique email|
-| `password`      | `string` |password|
-
-#### Login user
-
-```http
-  POST /login
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `username`      | `string` |username|
-| `password`      | `string` |password|
-
-#### Logout user
-
-```http
-  GET /logout
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| -      | - |End user Session|
-
-## Usage
-
-- Browse listings on the homepage
-
-- Filter listings by category
-
-- View listing locations on an interactive map
-
-- Signup/login to post reviews
-
-- Add new listings by modifying ```init/data.js```
-
-
-## Deployment
-
-- Images hosted on Cloudinary
-
-- Database hosted on MongoDB Atlas
-
-- Map functionality via Mapbox
-
-- Fully deployable on Render or Heroku
-
-## ⚠️ Known Issues / Warnings
-
-- CRLF warnings on Git (Windows): Normal, harmless
-
-- Mongoose ValidationError: Ensure ```geometry.type``` and ```category``` values are valid
-
-- Mapbox: Requires a valid API token
-## Contributing
-
-Contributions are always welcome!
-
-a) Fork the repo
-
-b) Create a branch: `git checkout -b feature-name`
-
-c) Make changes and commit: `git commit -m "Description"`
-
-d) Push: `git push origin feature-name`
-
-e) Open a Pull Request
-
-
-
-
+**Vinay Yadav**
+Full Stack Developer
+Built with a focus on scalability, maintainability, and clean architecture.
